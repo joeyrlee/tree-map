@@ -32,3 +32,16 @@ var Tree = function(value) {
   this.value = value;
   this.children = [];
 };
+
+Tree.prototype.addChild = function(val) {
+  this.children.push(new Tree(val));
+}
+
+Tree.prototype.map = function(callback) {
+  let mappedTree = new Tree(callback(this.value));
+  //recurse through `this` tree and map tree nodes
+  (function mapTree(originalTreeNode, newTreeNode) {
+    
+  }(this, mappedTree));
+  return mappedTree;
+}
