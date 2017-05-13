@@ -28,7 +28,7 @@
   *  root1.value // still 1
   */
 
-var Tree = function(value) {
+const Tree = function(value) {
   this.value = value;
   this.children = [];
 };
@@ -41,7 +41,15 @@ Tree.prototype.map = function(callback) {
   let mappedTree = new Tree(callback(this.value));
   //recurse through `this` tree and map tree nodes
   (function mapTree(originalTreeNode, newTreeNode) {
-    
+    if (!originalTreeNode.children.length) {
+      return; //EJECT
+    }
+    for (let i = 0; i < originalTreeNode.children.length; i++) {
+      let originalChildNode = originalTreeNode.children[i];
+      let mappedChildNode = new Tree(callback(originalChildNode.value));
+      newTreeNode.children.push(mappedChildNode);
+      mapTree(originalChildNode, mappedChildNode);
+    }
   }(this, mappedTree));
   return mappedTree;
-}
+};
